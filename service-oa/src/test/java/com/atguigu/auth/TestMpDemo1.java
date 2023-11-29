@@ -2,6 +2,8 @@ package com.atguigu.auth;
 
 import com.atguigu.auth.mapper.SysRoleMapper;
 import com.atguigu.model.system.SysRole;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -59,4 +61,26 @@ public class TestMpDemo1 {
         int result = mapper.deleteBatchIds(Arrays.asList(1, 2));
         System.out.println(result);
     }
+
+    // 条件查询
+    @Test
+    public void testQuery1(){
+        // 创建QueryWrapper对象，调用方法进行封装条件
+        QueryWrapper<SysRole> wrapper = new QueryWrapper<>();
+        wrapper.eq("role_name", "总经理");
+        // 调用mp方法实现查询操作
+        List<SysRole> list = mapper.selectList(wrapper);
+        System.out.println(list);
+    }
+
+    @Test
+    public void testQuery2(){
+        // 创建QueryWrapper对象，调用方法进行封装条件
+        LambdaQueryWrapper<SysRole> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(SysRole::getRoleName, "总经理");
+        // 调用mp方法实现查询操作
+        List<SysRole> users = mapper.selectList(queryWrapper);
+        System.out.println(users);
+    }
+
 }
